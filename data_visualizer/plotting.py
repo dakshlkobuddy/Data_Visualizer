@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from typing import TypedDict
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -20,7 +21,14 @@ PLOT_TYPES = [
 HEATMAP_CMAPS = {"Blues", "viridis"}
 
 
-def get_axis_config(df: pd.DataFrame, plot_type: str) -> dict[str, object]:
+class AxisConfig(TypedDict):
+    x_options: list[str]
+    y_options: list[str]
+    requires_y: bool
+    x_fixed: str | None
+
+
+def get_axis_config(df: pd.DataFrame, plot_type: str) -> AxisConfig:
     numeric_cols, categorical_cols = get_column_groups(df)
     all_cols = df.columns.tolist()
 
@@ -195,4 +203,3 @@ def create_plot(
 
     fig.tight_layout()
     return fig
-
